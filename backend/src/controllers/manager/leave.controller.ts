@@ -31,6 +31,7 @@ export default class LeaveController extends BaseController {
             const {id} = req.params;
 
             const leave = await this.leaveService.approveLeave(id);
+            console.log(leave, "check 222")
             if (!leave) {
                 return res.status(500).json({message: 'Approve leave failed'});
             }
@@ -46,8 +47,11 @@ export default class LeaveController extends BaseController {
 
     rejectLeave = async (req: object | any, res: object | any) => {
         try {
+            console.log(res, "ress")
+            console.log(req, "reqq")
             const {id} = req.params;
             const leave = await this.leaveService.rejectLeave(id);
+            console.log(leave, "leave")
             if (!leave) {
                 return res.status(500).json({message: 'Reject leave failed'});
             }

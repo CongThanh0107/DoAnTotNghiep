@@ -63,6 +63,7 @@ export default class UserService {
 
 	async updateUser(id: string, data: object|any): Promise<object | null> {
 		const user = await this.userRepository.update(id, data);
+		console.log(id, data, "check ch")
 		if (!user) {
 			return null;
 		}

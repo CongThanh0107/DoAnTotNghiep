@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
 import {EventInput} from '@fullcalendar/common';
+import {useNavigate} from 'react-router-dom';
 //
 import {Helmet} from 'react-helmet-async';
 import {useEffect, useRef, useState} from 'react';
@@ -125,6 +126,7 @@ export default function CalendarPage() {
 
     const handleClickToday = () => {
         const calendarEl = calendarRef.current;
+        console.log(calendarEl, "calendarEl")
         if (calendarEl) {
             const calendarApi = calendarEl.getApi();
             calendarApi.today();
@@ -134,6 +136,7 @@ export default function CalendarPage() {
 
     const handleChangeView = (newView: ICalendarViewValue) => {
         const calendarEl = calendarRef.current;
+        console.log(calendarEl, "calendarEl2")
         if (calendarEl) {
             const calendarApi = calendarEl.getApi();
             calendarApi.changeView(newView);
@@ -143,6 +146,9 @@ export default function CalendarPage() {
 
     const handleClickDatePrev = () => {
         const calendarEl = calendarRef.current;
+
+        console.log(calendarEl, "calendarEl3")
+
         if (calendarEl) {
             const calendarApi = calendarEl.getApi();
             calendarApi.prev();
@@ -152,6 +158,7 @@ export default function CalendarPage() {
 
     const handleClickDateNext = () => {
         const calendarEl = calendarRef.current;
+        console.log(calendarEl, "calendarEl4")
         if (calendarEl) {
             const calendarApi = calendarEl.getApi();
             calendarApi.next();
@@ -161,6 +168,7 @@ export default function CalendarPage() {
 
     const handleSelectRange = (arg: DateSelectArg) => {
         const calendarEl = calendarRef.current;
+        console.log(arg, "arg")
         if (calendarEl) {
             const calendarApi = calendarEl.getApi();
             calendarApi.unselect();
@@ -209,15 +217,22 @@ export default function CalendarPage() {
     const handleCloseModal = () => {
         dispatch(onCloseModal());
     };
+    const navigate = useNavigate();
 
     const handleCreateUpdateEvent = (newEvent: ICreateScheduleData) => {
-        if (selectedEventId) {
+        console.log(selectedEventId, newEvent, "check")
+        if (selectedEventId || selectedEvent) {
             dispatch(updateSchedule(selectedScheduleId, newEvent))
             enqueueSnackbar('Update success!');
         } else {
             dispatch(createSchedule(newEvent));
-            // dispatch(createEvent(newEvent));
             enqueueSnackbar('Create success!');
+        }
+        
+        if (user?.user?.role === 'user') {
+            dispatch(getEmployeeSchedules(1000, 1));
+        } else {
+            dispatch(getSchedules(1000, 1));
         }
     };
 
@@ -234,6 +249,7 @@ export default function CalendarPage() {
     };
 
     const handleFilterEventColor = (eventColor: string) => {
+        console.log(eventColor, "eventColor")
         const checked = filterEventColor.includes(eventColor)
             ? filterEventColor.filter((value) => value !== eventColor)
             : [...filterEventColor, eventColor];
@@ -260,7 +276,19 @@ export default function CalendarPage() {
         filterEndDate: picker.endDate,
         isError: !!picker.isError,
     });
+    // const navigate = useNavigate();
+    // const [currentLength, setCurrentLength] = useState(0)
+    // useEffect(() => {
+    //     if(currentLength !== dataFiltered.length){
+    //         setCurrentLength(dataFiltered.length)
+    //         navigate("/dashboard/benefit/list");
+    //         setTimeout(() => {
+    //             navigate("/dashboard/calendar");
+    //         },100)
 
+    //     }
+    //      eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [dataFiltered, currentLength])
     return (
         <>
             <Helmet>

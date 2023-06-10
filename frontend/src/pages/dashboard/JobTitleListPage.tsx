@@ -126,6 +126,12 @@ export default function JobTitleListPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page, rowsPerPage]);
 
+    useEffect(() => {
+        if (jobTitles.length > 0) {
+            setTableData(jobTitles);
+        }
+    }, [jobTitles])
+
     const handleOpenConfirm = () => {
         setOpenConfirm(true);
     };
@@ -182,7 +188,7 @@ export default function JobTitleListPage() {
         setFilterRole('all');
         setFilterStatus('all');
     };
-
+ 
     return (
         <>
             <Helmet>

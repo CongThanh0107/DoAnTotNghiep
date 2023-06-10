@@ -126,7 +126,11 @@ export default function BenefitListPage() {
         setTableData(benefits);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page, rowsPerPage]);
-
+    useEffect(() => {
+        if (benefits.length > 0) {
+            setTableData(benefits);
+        }
+    }, [benefits])
     const handleOpenConfirm = () => {
         setOpenConfirm(true);
     };

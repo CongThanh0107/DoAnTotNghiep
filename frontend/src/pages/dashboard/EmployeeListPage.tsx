@@ -131,6 +131,12 @@ export default function EmployeeListPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page, rowsPerPage]);
 
+    useEffect(() => {
+        if (employees.length > 0) {
+            setTableData(employees);
+        }
+    }, [employees])
+
     const handleOpenConfirm = () => {
         setOpenConfirm(true);
     };
@@ -150,6 +156,8 @@ export default function EmployeeListPage() {
     };
 
     const handleDeleteRow = (id: string) => {
+        console.log(id, "selectedRows")
+
         const deleteRow = tableData.filter((row) => row.id !== id);
         setSelected([]);
         setTableData(deleteRow);
@@ -162,6 +170,7 @@ export default function EmployeeListPage() {
     };
 
     const handleDeleteRows = (selectedRows: string[]) => {
+        console.log(selectedRows, "selectedRows")
         const deleteRows = tableData.filter((row) => !selectedRows.includes(row.id));
         setSelected([]);
         setTableData(deleteRows);
@@ -365,7 +374,7 @@ function applyFilter({
 
     if (filterName) {
         inputData = inputData.filter(
-            (user) => user.id.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+            (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
         );
     }
 

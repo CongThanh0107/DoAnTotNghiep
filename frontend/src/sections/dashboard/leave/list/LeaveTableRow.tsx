@@ -77,9 +77,9 @@ export default function LeaveTableRow({
 
                 <TableCell align="left">{leave_type_id}</TableCell>
 
-                <TableCell align="left">{start_date}</TableCell>
+                <TableCell align="left">{fDate(start_date)}</TableCell>
 
-                <TableCell align="left">{end_date}</TableCell>
+                <TableCell align="left">{fDate(end_date)}</TableCell>
 
                 <TableCell align="left">{status}</TableCell>
 

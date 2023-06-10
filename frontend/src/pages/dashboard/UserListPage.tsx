@@ -105,6 +105,7 @@ export default function UserListPage() {
 
     const [filterStatus, setFilterStatus] = useState('all');
 
+
     const dataFiltered = applyFilter({
         inputData: tableData,
         comparator: getComparator(order, orderBy),
@@ -132,6 +133,12 @@ export default function UserListPage() {
         setTableData(users);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page, rowsPerPage]);
+
+    useEffect(() => {
+        if (users.length > 0) {
+            setTableData(users);
+        }
+    }, [users])
 
     const handleOpenConfirm = () => {
         setOpenConfirm(true);
@@ -194,6 +201,14 @@ export default function UserListPage() {
         setFilterRole('all');
         setFilterStatus('all');
     };
+
+    // if(!dataFiltered.length){
+    //     navigate('/dashboard/user/create')
+    //     setTimeout(() => {
+    //         navigate('/dashboard/user/list')
+    //     }, 300)
+    // }
+
 
     return (
         <>

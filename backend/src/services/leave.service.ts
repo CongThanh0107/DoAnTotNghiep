@@ -55,9 +55,14 @@ export default class LeaveService {
     }
 
     async approveLeave(id: string): Promise<object | null> {
-        const leaveUpdated = await this.leaveRepository.update(id, {status: 'approved'});
-        if (!leaveUpdated) {
-            return null;
+        try{
+            const leaveUpdated = await this.leaveRepository.update(id, {status: 'approved'});
+            console.log(leaveUpdated, "leaveUpdated")
+            if (!leaveUpdated) {
+                return null;
+            }
+        } catch (e) {
+            console.log(e, "eeeee")
         }
         const leave: object | any = await this.leaveRepository.getById(id);
         const employee: object | any = await this.employeeRepository.getById(leave.employee_id);
@@ -75,9 +80,14 @@ export default class LeaveService {
     }
 
     async rejectLeave(id: string): Promise<object | null> {
-        const leaveUpdated = await this.leaveRepository.update(id, {status: 'rejected'});
-        if (!leaveUpdated) {
-            return null;
+        try {
+            console.log(id, {status: "rejected"}, "kiki")
+            const leaveUpdated = await this.leaveRepository.update(id, {status: "rejected"});
+            if (!leaveUpdated) {
+                return null;
+            }
+        } catch(e ){
+            // console.log(e, "eeeeexx")
         }
         const leave: object | any = await this.leaveRepository.getById(id);
         const employee: object | any = await this.employeeRepository.getById(leave.employee_id);

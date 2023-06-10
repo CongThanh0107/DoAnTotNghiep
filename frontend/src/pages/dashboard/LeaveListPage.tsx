@@ -130,6 +130,12 @@ export default function LeaveListPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, page, rowsPerPage]);
 
+    useEffect(() => {
+        if (leaves.length > 0) {
+            setTableData(leaves);
+        }
+    }, [leaves])
+
     const handleOpenConfirm = () => {
         setOpenConfirm(true);
     };

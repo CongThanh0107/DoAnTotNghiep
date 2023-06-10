@@ -156,6 +156,7 @@ export function AuthProvider({children}: AuthProviderProps) {
                 user,
             },
         });
+        window.location.reload()
     }, []);
 
     // REGISTER

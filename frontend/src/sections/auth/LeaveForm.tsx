@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import {useEffect, useMemo} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 // form
 import {Controller, useForm} from 'react-hook-form';
@@ -86,12 +86,18 @@ export default function LeaveForm({isEdit, currentLeave}: Props) {
         dispatch(getLeaveTypes());
     }, [dispatch]);
 
+    const [startDate,setStartDate] = useState("Sat Jun 10 2023 11:21:35 GMT+0700 (Indochina Time)")
+    const [endDate,setEndDate] = useState("Sat Jun 10 2023 11:21:35 GMT+0700 (Indochina Time)")
+
     const onSubmit = async (data: ICreateLeaveData) => {
+        console.log(data.start_date, "data")
+        console.log(startDate, "data1")
+        console.log(data, "data2")
         try {
             data = {
                 ...data,
-                start_date: fDate(data.start_date, 'yyyy-MM-dd'),
-                end_date: fDate(data.end_date, 'yyyy-MM-dd'),
+                start_date: fDate(startDate, 'yyyy-MM-dd'),
+                end_date: fDate(endDate, 'yyyy-MM-dd'),
             };
             dispatch(createLeave(data)).then(() => {
                 enqueueSnackbar('Create leave success', {variant: 'success'});
@@ -101,6 +107,10 @@ export default function LeaveForm({isEdit, currentLeave}: Props) {
             console.error(error);
         }
     }
+
+    useEffect(() => {
+        console.log(control, "control")
+    },[control])
 
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -132,6 +142,7 @@ export default function LeaveForm({isEdit, currentLeave}: Props) {
                                         value={field.value}
                                         onChange={(newValue) => {
                                             field.onChange(newValue);
+                                            setStartDate(newValue)
                                         }}
                                         renderInput={(params) => (
                                             <TextField
@@ -153,6 +164,7 @@ export default function LeaveForm({isEdit, currentLeave}: Props) {
                                         inputFormat='dd/MM/yyyy'
                                         value={field.value}
                                         onChange={(newValue) => {
+                                            setEndDate(newValue)
                                             field.onChange(newValue);
                                         }}
                                         renderInput={(params) => (
